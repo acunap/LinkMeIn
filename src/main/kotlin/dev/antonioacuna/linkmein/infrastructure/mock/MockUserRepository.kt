@@ -1,27 +1,24 @@
 package dev.antonioacuna.linkmein.infrastructure.mock
 
+import dev.antonioacuna.linkmein.domain.exceptions.NotFoundException
 import dev.antonioacuna.linkmein.domain.users.User
 import dev.antonioacuna.linkmein.domain.users.UserRepository
 import org.springframework.stereotype.Repository
 import java.util.UUID
 
 @Repository
-class MockUserRepository : UserRepository {
-    val users = emptyList<User>()
+class MockUserRepository(
+    private val users : MutableCollection<User> = mutableListOf()
+) : UserRepository {
 
-    override fun getAll(): Collection<User> {
-        TODO("Not yet implemented")
-    }
+    override fun getAll(): Collection<User> = users
 
-    override fun getById(id: UUID): User {
-        TODO("Not yet implemented")
-    }
+    override fun getById(id: UUID): User = users.find { user -> user.id == id } ?: throw NotFoundException("User", id)
 
     override fun create(user: User): UUID {
-        TODO("Not yet implemented")
+        users.add(user)
+        return user.id
     }
 
-    override fun delete(id: UUID) {
-        TODO("Not yet implemented")
-    }
+    override fun delete(id: UUID) = if (users.removeIf { user -> user.id == id }) Unit else throw NotFoundException("User", id)
 }
