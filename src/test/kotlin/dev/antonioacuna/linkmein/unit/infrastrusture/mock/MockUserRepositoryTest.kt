@@ -11,10 +11,11 @@ import java.util.*
 
 class MockUserRepositoryTest {
     private val mockUsers = mutableListOf(
-        User(UUID.randomUUID(), "first@email.com"),
-        User(UUID.randomUUID(), "second@email.com"),
-        User(UUID.randomUUID(), "third@email.com"),
+        User(UUID.randomUUID(), "first@email.com", mutableListOf()),
+        User(UUID.randomUUID(), "second@email.com", mutableListOf()),
+        User(UUID.randomUUID(), "third@email.com", mutableListOf()),
     )
+
     private val mockUserRepository = MockUserRepository(mockUsers)
 
     @Test
@@ -41,7 +42,7 @@ class MockUserRepositoryTest {
 
     @Test
     fun `create user should return new user id`() {
-        val newUser = User(UUID.randomUUID(), "fourth@email.com")
+        val newUser = User(UUID.randomUUID(), "fourth@email.com",  mutableListOf())
         val userCreatedId = mockUserRepository.create(newUser)
 
         assertThat(userCreatedId).isEqualTo(newUser.id)
