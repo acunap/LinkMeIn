@@ -1,6 +1,7 @@
 package dev.antonioacuna.linkmein.infrastructure.mock
 
 import dev.antonioacuna.linkmein.domain.exceptions.NotFoundException
+import dev.antonioacuna.linkmein.domain.links.Link
 import dev.antonioacuna.linkmein.domain.users.User
 import dev.antonioacuna.linkmein.domain.users.UserRepository
 import org.springframework.stereotype.Repository
@@ -19,6 +20,8 @@ class MockUserRepository(
         users.add(user)
         return user.id
     }
+
+    override fun addLink(user: User, link: Link) = user.addLink(link)
 
     override fun delete(id: UUID) = if (users.removeIf { user -> user.id == id }) Unit else throw NotFoundException("User", id)
 }

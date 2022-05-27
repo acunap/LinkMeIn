@@ -7,4 +7,8 @@ data class User(
     val id: UUID,
     val email: String,
     val links: MutableCollection<Link>
-)
+) {
+    fun addLink(link: Link) {
+        links.add(link)
+    }
+}
